@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>末日异能人格测试</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:"Microsoft YaHei",sans-serif}
+body{background:#0f1219;color:#e6e6e6;padding:20px;max-width:600px;margin:0 auto}
+.container{background:#161b2c;border-radius:16px;padding:30px;box-shadow:0 0 30px #0006}
+h1{text-align:center;color:#ff4060;margin-bottom:20px}
+.intro{text-align:center;line-height:1.6;margin-bottom:24px;color:#aaa}
+.login{background:#1e2538;border-radius:12px;padding:24px;text-align:center}
+#codeInput{width:100%;padding:14px;background:#111622;border:none;border-radius:8px;color:#fff;font-size:16px;text-align:center;margin:12px 0}
+#startBtn{width:100%;padding:14px;background:#00f0ff;color:#000;font-weight:bold;border:none;border-radius:8px;cursor:pointer}
+#startBtn:disabled{background:#444;color:#999}
+.questions{display:none}
+.question{display:none;margin-bottom:24px}
+.question.active{display:block}
+.q-title{font-size:18px;color:#00f0ff;margin-bottom:16px}
+.option{background:#252d44;padding:14px;border-radius:8px;margin-bottom:10px;cursor:pointer}
+.option.selected{background:#ff4060}
+.nav{display:flex;gap:12px;margin-top:20px}
+.nav button{flex:1;padding:12px;border-radius:8px;border:none;cursor:pointer}
+.prev{background:#333}
+.next{background:#00f0ff;color:#000}
+.result{display:none;background:#1e2538;border-radius:12px;padding:24px;text-align:center}
+.result-title{font-size:22px;color:#ff4060;margin-bottom:12px}
+.result-desc{line-height:1.8}
+</style>
+</head>
+<body>
+
+<div class="container">
+  <h1>末日异能人格测试</h1>
+  <div class="intro">输入专属激活码，解锁你的末日异能<br>每人仅限一次</div>
+
+  <div class="login" id="loginBox">
+    <div>请输入激活码</div>
+    <input type="text" id="codeInput" placeholder="8位激活码" maxlength="8">
+    <button id="startBtn" disabled>开始测试</button>
+  </div>
+
+  <div class="questions" id="qBox">
+    <div class="question active" data-i="0">
+      <div class="q-title">1. 末日爆发第一天你先？</div>
+      <div class="options">
+        <div class="option" data-a="A">找武器战斗</div>
+        <div class="option" data-a="B">存物资规划</div>
+        <div class="option" data-a="C">找家人</div>
+        <div class="option" data-a="D">观察环境</div>
+      </div>
+    </div>
+    <div class="question" data-i="1">
+      <div class="q-title">2. 陌生人求助你？</div>
+      <div class="options">
+        <div class="option" data-a="A">看实力决定</div>
+        <div class="option" data-a="B">给物资不深交</div>
+        <div class="option" data-a="C">帮忙但防背叛</div>
+        <div class="option" data-a="D">先观察</div>
+      </div>
+    </div>
+    <div class="question" data-i="2">
+      <div class="q-title">3. 你最信任的能力是？</div>
+      <div class="options">
+        <div class="option" data-a="A">自己身手</div>
+        <div class="option" data-a="B">理智判断</div>
+        <div class="option" data-a="C">直觉共情</div>
+        <div class="option" data-a="D">细节分析</div>
+      </div>
+    </div>
+    <div class="question" data-i="3">
+      <div class="q-title">4. 你最害怕？</div>
+      <div class="options">
+        <div class="option" data-a="A">无力反抗</div>
+        <div class="option" data-a="B">缺粮缺水</div>
+        <div class="option" data-a="C">被背叛</div>
+        <div class="option" data-a="D">看不清真相</div>
+      </div>
+    </div>
+    <div class="question" data-i="4">
+      <div class="q-title">5. 团队遇险你角色是？</div>
+      <div class="options">
+        <div class="option" data-a="A">冲前面</div>
+        <div class="option" data-a="B">指挥撤退</div>
+        <div class="option" data-a="C">安抚照顾</div>
+        <div class="option" data-a="D">找弱点破局</div>
+      </div>
+    </div>
+    <div class="question" data-i="5">
+      <div class="q-title">6. 你更喜欢？</div>
+      <div class="options">
+        <div class="option" data-a="A">正面硬刚</div>
+        <div class="option" data-a="B">低调潜行</div>
+        <div class="option" data-a="C">话术周旋</div>
+        <div class="option" data-a="D">布局智取</div>
+      </div>
+    </div>
+    <div class="question" data-i="6">
+      <div class="q-title">7. 你希望异能？</div>
+      <div class="options">
+        <div class="option" data-a="A">超强攻击</div>
+        <div class="option" data-a="B">超强保命</div>
+        <div class="option" data-a="C">影响他人</div>
+        <div class="option" data-a="D">看透一切</div>
+      </div>
+    </div>
+    <div class="question" data-i="7">
+      <div class="q-title">8. 末日终极目标？</div>
+      <div class="options">
+        <div class="option" data-a="A">成为最强</div>
+        <div class="option" data-a="B">安稳活下去</div>
+        <div class="option" data-a="C">终结灾难</div>
+        <div class="option" data-a="D">守护在乎的人</div>
+      </div>
+    </div>
+
+    <div class="nav">
+      <button class="prev" id="prev" style="display:none">上一题</button>
+      <button class="next" id="next">下一题</button>
+    </div>
+  </div>
+
+  <div class="result" id="resultBox">
+    <div class="result-title" id="rTitle"></div>
+    <div class="result-desc" id="rDesc"></div>
+  </div>
+</div>
+
+<script>
+// ======================================
+// 已填好你的表格ID：ceMGBYMczWxW
+// ======================================
+const CONFIG = {
+  KDOCS_ID: "ceMGBYMczWxW",
+};
+
+let codeList = [];
+let currentCode = "";
+
+// 加载表格数据
+async function loadCodeList() {
+  try {
+    const res = await fetch(`https://365.kdocs.cn/api/office/sheets/export?type=json&id=${CONFIG.KDOCS_ID}`);
+    const json = await res.json();
+    codeList = (json.data?.values || []).filter(r => r[0] && r[0].trim());
+  } catch (e) { codeList = [] }
+}
+
+// 验证激活码
+function checkCode(input) {
+  const idx = codeList.findIndex(r => 
+    r[0].toString().trim().toUpperCase() === input.trim().toUpperCase()
+  );
+  if (idx === -1) return { ok: false, msg: "激活码不存在" };
+  const row = codeList[idx];
+  if (row[1] == 1) return { ok: false, msg: "激活码已使用" };
+  if (row[2] != 1) return { ok: false, msg: "激活码已禁用" };
+  return { ok: true, idx };
+}
+
+// 云端自动标记为已使用
+async function markAsUsed(inputCode) {
+  try {
+    const idx = codeList.findIndex(r => 
+      r[0].toString().trim().toUpperCase() === inputCode.trim().toUpperCase()
+    );
+    if (idx === -1) return;
+    await fetch(`https://365.kdocs.cn/api/office/sheets/set-cell`, {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: new URLSearchParams({
+        id: CONFIG.KDOCS_ID,
+        r: idx,
+        c: 1,
+        value: "1"
+      })
+    });
+  } catch (e) {}
+}
+
+// 页面逻辑
+const codeInput = document.getElementById("codeInput");
+const startBtn = document.getElementById("startBtn");
+
+codeInput.addEventListener("input", () => {
+  startBtn.disabled = !codeInput.value.trim();
+});
+
+if (localStorage.getItem("test_done") === "1") {
+  alert("您已测试完毕，仅限一次");
+  codeInput.disabled = true;
+  startBtn.disabled = true;
+}
+
+startBtn.onclick = async () => {
+  await loadCodeList();
+  const input = codeInput.value.trim();
+  const ck = checkCode(input);
+  if (!ck.ok) { alert(ck.msg); return; }
+
+  // 标记已使用
+  localStorage.setItem("test_done", "1");
+  currentCode = input;
+  await markAsUsed(input); // 云端自动标记
+
+  document.getElementById("loginBox").style.display = "none";
+  document.getElementById("qBox").style.display = "block";
+};
+
+// 答题逻辑
+let cur = 0;
+const qs = document.querySelectorAll(".question");
+const ans = {A:0,B:0,C:0,D:0};
+const uAns = Array(8).fill(null);
+
+document.querySelectorAll(".option").forEach(o => {
+  o.onclick = () => {
+    const p = o.parentElement;
+    p.querySelectorAll(".option").forEach(x => x.classList.remove("selected"));
+    o.classList.add("selected");
+    const i = +o.closest(".question").dataset.i;
+    const a = o.dataset.a;
+    if (uAns[i]) ans[uAns[i]]--;
+    uAns[i] = a; ans[a]++;
+  };
+});
+
+document.getElementById("next").onclick = () => {
+  if (!uAns[cur]) return alert("请选择一项");
+  if (cur < 7) {
+    qs[cur].classList.remove("active");
+    cur++;
+    qs[cur].classList.add("active");
+    document.getElementById("prev").style.display = "block";
+    if (cur === 7) document.getElementById("next").innerText = "提交";
+  } else {
+    showResult();
+  }
+};
+
+document.getElementById("prev").onclick = () => {
+  if (cur > 0) {
+    qs[cur].classList.remove("active");
+    cur--;
+    qs[cur].classList.add("active");
+    document.getElementById("next").innerText = "下一题";
+  }
+};
+
+function showResult() {
+  document.getElementById("qBox").style.display = "none";
+  document.getElementById("resultBox").style.display = "block";
+  const max = Math.max(ans.A, ans.B, ans.C, ans.D);
+  const keys = Object.keys(ans).filter(k => ans[k] === max);
+  let t,d;
+
+  if (keys.length === 1) {
+    switch(keys[0]){
+      case"A":t="狂暴战魂";d="异能：肉体强化、极限爆发、战斗直觉，越危越强";break;
+      case"B":t="时空壁垒";d="异能：速度增幅、短暂预知、防御屏障，生存拉满";break;
+      case"C":t="精神主宰";d="异能：情绪感知、意志震慑、心灵安抚，团队核心";break;
+      case"D":t="万象洞悉";d="异能：真相之眼、弱点透视、解析规则，智商碾压";break;
+    }
+  } else if (keys.includes("A") && keys.includes("D")) {
+    t="雷霆裁决";d="异能：雷电操控、高速反应、精准打击，审判者降临";
+  } else if (keys.includes("B") && keys.includes("C")) {
+    t="生命守护";d="异能：自愈再生、范围治愈、生命力汲取，末日之光";
+  } else {
+    t="多元异能者";d="人格均衡，可切换多种异能，末日最灵活多面手";
+  }
+
+  document.getElementById("rTitle").innerText = t;
+  document.getElementById("rDesc").innerText = d;
+}
+</script>
+</body>
+</html>
