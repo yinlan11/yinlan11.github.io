@@ -138,13 +138,20 @@ const CONFIG = {
 let codeList = [];
 let currentCode = "";
 
-// 加载表格数据
+// 加载表格数据（改用CSV接口，更稳定）
 async function loadCodeList() {
   try {
-    const res = await fetch(`https://365.kdocs.cn/api/office/sheets/export?type=json&id=${CONFIG.KDOCS_ID}`);
-    const json = await res.json();
-    codeList = (json.data?.values || []).filter(r => r[0] && r[0].trim());
-  } catch (e) { codeList = [] }
+    const res = await fetch(`https://365.kdocs.cn/api/office/sheets/export?type=csv&id=${CONFIG.KDOCS_ID}`);
+    const csvText = await res.text();
+    // 解析CSV，跳过表头
+    const lines = csvText.trim().split('\n');
+    codeList = lines.slice(1).map(line => {
+      const parts = line.split(',');
+      return [parts[0], parts[1] || '0', parts[2] || '1'];
+    }).filter(row => row[0] && row[0].trim());
+  } catch (e) {
+    codeList = [];
+  }
 }
 
 // 验证激活码
@@ -171,7 +178,7 @@ async function markAsUsed(inputCode) {
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
       body: new URLSearchParams({
         id: CONFIG.KDOCS_ID,
-        r: idx,
+        r: idx + 1, // CSV解析后索引从0开始，表格行从1开始，所以+1
         c: 1,
         value: "1"
       })
